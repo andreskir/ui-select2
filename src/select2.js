@@ -145,6 +145,15 @@ angular.module('ui.select2', []).value('uiSelect2Config', {}).directive('uiSelec
             return value;
           });
 
+          //<fixes=the single comboboxes dont't update the model>
+          elm.bind("select2-selecting", function(e) {
+            if (isSelect && !isMultiple) {
+              controller.$setViewValue(e.val);
+              scope.$apply();
+            }
+          });
+          //</fixes>
+
           if (!isSelect) {
             // Set the view and model value and update the angular template manually for the ajax/multiple select2.
             elm.bind("change", function (e) {
