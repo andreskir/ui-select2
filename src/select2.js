@@ -42,7 +42,10 @@ angular.module('ui.select2', []).value('uiSelect2Config', {}).directive('uiSelec
           if (opts.simple_tags) {
             model = [];
             angular.forEach(select2_data, function(value, index) {
-              model.push(value.id);
+              var val = value.id;
+              if(opts.isNumeric)
+                val = parseFloat(val);
+              model.push(val);
             });
           } else {
             model = select2_data;
@@ -64,7 +67,7 @@ angular.module('ui.select2', []).value('uiSelect2Config', {}).directive('uiSelec
             angular.forEach(
               angular_data,
               function(value, index) {
-                model.push({'id': value, 'text': value});
+                model.push({'id': value, 'text': value, 'locked': opts.itemDisabled ? opts.itemDisabled(value) : false });
               });
           } else {
             model = angular_data;
@@ -158,7 +161,7 @@ angular.module('ui.select2', []).value('uiSelect2Config', {}).directive('uiSelec
             // Set the view and model value and update the angular template manually for the ajax/multiple select2.
             elm.bind("change", function (e) {
               e.stopImmediatePropagation();
-              
+
               if (scope.$$phase || scope.$root.$$phase) {
                 return;
               }
