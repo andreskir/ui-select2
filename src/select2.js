@@ -42,10 +42,7 @@ angular.module('ui.select2', []).value('uiSelect2Config', {}).directive('uiSelec
           if (opts.simple_tags) {
             model = [];
             angular.forEach(select2_data, function(value, index) {
-              var val = value.id;
-              if(opts.isNumeric)
-                val = parseFloat(val);
-              model.push(val);
+              model.push(value.id);
             });
           } else {
             model = select2_data;
